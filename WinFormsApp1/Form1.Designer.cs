@@ -31,6 +31,7 @@
             textBox1 = new TextBox();
             ToSend = new Button();
             richTextBox1 = new RichTextBox();
+            button1 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -62,11 +63,22 @@
             richTextBox1.Text = "";
             richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
+            // button1
+            // 
+            button1.Location = new Point(136, 157);
+            button1.Name = "button1";
+            button1.Size = new Size(129, 55);
+            button1.TabIndex = 4;
+            button1.Text = "Подключиться";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(richTextBox1);
             Controls.Add(ToSend);
             Controls.Add(textBox1);
@@ -82,5 +94,6 @@
         private TextBox textBox1;
         private Button ToSend;
         private RichTextBox richTextBox1;
+        private Button button1;
     }
 }

@@ -17,7 +17,7 @@ namespace WinFormsApp1
             InitializeComponent();
             //Server server = new Server();
             //server.Ser();
-            Cl(_name);
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -41,22 +41,22 @@ namespace WinFormsApp1
                 Console.WriteLine($"ѕодключение с {tcpClient.Client.RemoteEndPoint} установленно");
                 while (stream != null)
                 {
-                    byte[] mes = Encoding.UTF8.GetBytes(textBox1.Text);
-                    try
-                    {
-                        if (textBox1.Text == "" || textBox1.Text[0] == ' ')
-                            textBox1.Text.Trim();
-                        if (textBox1.Text.Length > 0 && textBox1.Text != " ")
+                        byte[] mes = Encoding.UTF8.GetBytes(textBox1.Text);
+                        try
                         {
-                            Console.WriteLine($"{name}: {textBox1.Text}");
+                            if (textBox1.Text == "" || textBox1.Text[0] == ' ')
+                                textBox1.Text.Trim();
+                            if (textBox1.Text.Length > 0 && textBox1.Text != " ")
+                            {
+                                Console.WriteLine($"{name}: {textBox1.Text}");
+                            }
+                            stream.WriteAsync(mes);
+                            stream = null;
                         }
-                        stream.WriteAsync(mes);
-                        stream = null;
-                    }
-                    catch
-                    {
-                        Console.WriteLine("сервер временно недоступен");
-                    }
+                        catch
+                        {
+                            Console.WriteLine("сервер временно недоступен");
+                        }
                 }
             }
             else
@@ -65,7 +65,7 @@ namespace WinFormsApp1
             }
         }
         private void ToSend_Click(object sender, EventArgs e)
-        {            
+        {
             if ((chek && textBox1.Text != "") && (textBox1.Text != null && chek))
                 richTextBox1.Text += $"{_name}: {textBox1.Text} \r\n";
             Console.WriteLine($"{_name}: {textBox1.Text} ");
@@ -92,6 +92,11 @@ namespace WinFormsApp1
                 richTextBox1.SelectionStart = richTextBox1.Text.Length;
                 richTextBox1.ScrollToCaret();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Cl(_name);
         }
     }
 }
