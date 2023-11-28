@@ -29,31 +29,46 @@
         private void InitializeComponent()
         {
             textBox1 = new TextBox();
-            button1 = new Button();
+            ToSend = new Button();
+            richTextBox1 = new RichTextBox();
             SuspendLayout();
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(298, 384);
+            textBox1.Location = new Point(271, 384);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(193, 23);
+            textBox1.Size = new Size(293, 23);
             textBox1.TabIndex = 0;
+            textBox1.TabStop = false;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
-            // button1
+            // ToSend
             // 
-            button1.Location = new Point(538, 384);
-            button1.Name = "button1";
-            button1.Size = new Size(111, 23);
-            button1.TabIndex = 1;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            ToSend.Location = new Point(570, 384);
+            ToSend.Name = "ToSend";
+            ToSend.Size = new Size(79, 23);
+            ToSend.TabIndex = 1;
+            ToSend.Text = "Отправить";
+            ToSend.UseVisualStyleBackColor = true;
+            ToSend.Click += ToSend_Click;
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.BackColor = SystemColors.ScrollBar;
+            richTextBox1.Location = new Point(271, 12);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(378, 366);
+            richTextBox1.TabIndex = 3;
+            richTextBox1.Text = "";
+            richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button1);
+            Controls.Add(richTextBox1);
+            Controls.Add(ToSend);
             Controls.Add(textBox1);
             Name = "Form1";
             Text = "Form1";
@@ -65,6 +80,7 @@
         #endregion
 
         private TextBox textBox1;
-        private Button button1;
+        private Button ToSend;
+        private RichTextBox richTextBox1;
     }
 }
