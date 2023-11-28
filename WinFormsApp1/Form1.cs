@@ -15,8 +15,8 @@ namespace WinFormsApp1
         {
             _name = "User 1";
             InitializeComponent();
-            Server server = new Server();
-            server.Ser();
+            //Server server = new Server();
+            //server.Ser();
             Cl(_name);
         }
 
@@ -35,19 +35,17 @@ namespace WinFormsApp1
             {
                 await Console.Out.WriteLineAsync("Клиент не подключился");
             }
-            string message = "";
             if (tcpClient.Connected)
             {
                 var stream = tcpClient.GetStream();
                 Console.WriteLine($"Подключение с {tcpClient.Client.RemoteEndPoint} установленно");
                 while (stream != null)
                 {
-                    byte[] mes = Encoding.UTF8.GetBytes(message);
+                    byte[] mes = Encoding.UTF8.GetBytes(textBox1.Text);
                     try
                     {
                         if (textBox1.Text == "" || textBox1.Text[0] == ' ')
                             textBox1.Text.Trim();
-
                         if (textBox1.Text.Length > 0 && textBox1.Text != " ")
                         {
                             Console.WriteLine($"{name}: {textBox1.Text}");
