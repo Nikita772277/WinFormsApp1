@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -17,7 +18,7 @@ namespace WinFormsApp1
             InitializeComponent();
             //Server server = new Server();
             //server.Ser();
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -33,14 +34,17 @@ namespace WinFormsApp1
             }
             catch
             {
-                await Console.Out.WriteLineAsync("Клиент не подключился");
+                richTextBox1.Text += ("Клиент не подключился");
             }
+            string messeg = "";
             if (tcpClient.Connected)
             {
                 var stream = tcpClient.GetStream();
-                Console.WriteLine($"Подключение с {tcpClient.Client.RemoteEndPoint} установленно");
+                richTextBox1.Text += ($"Подключение с {tcpClient.Client.RemoteEndPoint} установленно");
                 while (stream != null)
-                {
+                {                    
+                    if (textBox1.Text != "")
+                    {
                         byte[] mes = Encoding.UTF8.GetBytes(textBox1.Text);
                         try
                         {
@@ -48,27 +52,31 @@ namespace WinFormsApp1
                                 textBox1.Text.Trim();
                             if (textBox1.Text.Length > 0 && textBox1.Text != " ")
                             {
-                                Console.WriteLine($"{name}: {textBox1.Text}");
+                                richTextBox1.Text += ($"{name}: {textBox1.Text}");
                             }
                             stream.WriteAsync(mes);
                             stream = null;
                         }
                         catch
                         {
-                            Console.WriteLine("сервер временно недоступен");
+                            richTextBox1.Text += $"сервер временно недоступен \r\n";
                         }
+                    }
+                    else { }
                 }
             }
             else
             {
-                await Console.Out.WriteLineAsync("Не удалось подключиться");
+                richTextBox1.Text += $"Не удалось подключиться \r\n";
             }
+
         }
+
         private void ToSend_Click(object sender, EventArgs e)
         {
             if ((chek && textBox1.Text != "") && (textBox1.Text != null && chek))
                 richTextBox1.Text += $"{_name}: {textBox1.Text} \r\n";
-            Console.WriteLine($"{_name}: {textBox1.Text} ");
+            //Console.WriteLine($"{_name}: {textBox1.Text} ");
             textBox1.Text = "";
         }
         void this_MouseWheel(object sender, MouseEventArgs e)

@@ -41,6 +41,7 @@
             textBox1.Size = new Size(293, 23);
             textBox1.TabIndex = 0;
             textBox1.TabStop = false;
+            textBox1.Text = "e";
             textBox1.TextChanged += textBox1_TextChanged;
             // 
             // ToSend
