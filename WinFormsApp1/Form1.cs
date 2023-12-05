@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
@@ -12,9 +13,14 @@ namespace WinFormsApp1
     {
         bool chek = true;
         protected string _name = "";
+        private bool _connectingToTheServer;
+        private TcpClient _tcpClient;
+        private NetworkStream stream;
         public Form1()
         {
+            _tcpClient = new TcpClient();
             _name = "User 1";
+            _connectingToTheServer = false;
             InitializeComponent();
             //Server server = new Server();
             //server.Ser();
@@ -25,57 +31,84 @@ namespace WinFormsApp1
         {
 
         }
-        private async void Cl(string name)
+        private NetworkStream x()
         {
-            using TcpClient tcpClient = new TcpClient();
+            //using TcpClient tcpClient = new TcpClient();
             try
             {
-                tcpClient.ConnectAsync("127.0.0.1", 8888);
+                _tcpClient.ConnectAsync("127.0.0.1", 8888);
             }
             catch
             {
                 richTextBox1.Text += ("Клиент не подключился");
             }
             string messeg = "";
-            if (tcpClient.Connected)
+            if (_tcpClient.Connected)
             {
-                var stream = tcpClient.GetStream();
-                richTextBox1.Text += ($"Подключение с {tcpClient.Client.RemoteEndPoint} установленно");
-                while (stream != null)
-                {                    
-                    if (textBox1.Text != "")
-                    {
-                        byte[] mes = Encoding.UTF8.GetBytes(textBox1.Text);
-                        try
-                        {
-                            if (textBox1.Text == "" || textBox1.Text[0] == ' ')
-                                textBox1.Text.Trim();
-                            if (textBox1.Text.Length > 0 && textBox1.Text != " ")
-                            {
-                                richTextBox1.Text += ($"{name}: {textBox1.Text}");
-                            }
-                            stream.WriteAsync(mes);
-                            stream = null;
-                        }
-                        catch
-                        {
-                            richTextBox1.Text += $"сервер временно недоступен \r\n";
-                        }
-                    }
-                    else { }
-                }
+                var stream = _tcpClient.GetStream();
+                richTextBox1.Text += ($"Подключение с {_tcpClient.Client.RemoteEndPoint} установленно");
+                _connectingToTheServer = true;
+                return stream;
             }
             else
             {
                 richTextBox1.Text += $"Не удалось подключиться \r\n";
             }
+            return stream;
+        }
+        private void Cl(string name, NetworkStream stream)
+        {
+            //using TcpClient tcpClient = new TcpClient();
+            //try
+            //{
+            //    tcpClient.ConnectAsync("127.0.0.1", 8888);
+            //}
+            //catch
+            //{
+            //    richTextBox1.Text += ("Клиент не подключился");
+            //}
+            //string messeg = "";
+            //if (tcpClient.Connected)
+            //{
+            //    var stream = tcpClient.GetStream();
+            //    richTextBox1.Text += ($"Подключение с {tcpClient.Client.RemoteEndPoint} установленно");
+
+            while (_connectingToTheServer == true)
+            {
+                if (stream != null)
+                {
+                    byte[] mes = Encoding.UTF8.GetBytes(textBox1.Text);
+                    try
+                    {
+                        if (textBox1.Text == "" || textBox1.Text[0] == ' ')
+                            textBox1.Text.Trim();
+                        if (textBox1.Text.Length > 0 && textBox1.Text != " ")
+                        {
+                            richTextBox1.Text += ($"\r\n{name}: {textBox1.Text}");
+                        }
+                        stream.WriteAsync(mes);
+                        stream = null;
+                    }
+                    catch
+                    {
+                        richTextBox1.Text += $"сервер временно недоступен \r\n";
+                    }
+                }
+                else
+                    break;
+            }
+            //}
+            //else
+            //{
+            //    richTextBox1.Text += $"Не удалось подключиться \r\n";
+            //}
 
         }
-
         private void ToSend_Click(object sender, EventArgs e)
         {
-            if ((chek && textBox1.Text != "") && (textBox1.Text != null && chek))
-                richTextBox1.Text += $"{_name}: {textBox1.Text} \r\n";
+            //if ((chek && textBox1.Text != "") && (textBox1.Text != null && chek))
+            //    richTextBox1.Text += $"{_name}: {textBox1.Text} \r\n";
+            Cl(_name, stream);
             //Console.WriteLine($"{_name}: {textBox1.Text} ");
             textBox1.Text = "";
         }
@@ -104,7 +137,9 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Cl(_name);
+            x();
+            stream = x();
+            
         }
     }
 }
