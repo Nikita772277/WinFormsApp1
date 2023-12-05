@@ -22,8 +22,7 @@ namespace WinFormsApp1
             _name = "User 1";
             _connectingToTheServer = false;
             InitializeComponent();
-            //Server server = new Server();
-            //server.Ser();
+
 
         }
 
@@ -33,10 +32,9 @@ namespace WinFormsApp1
         }
         private NetworkStream x()
         {
-            //using TcpClient tcpClient = new TcpClient();
             try
             {
-                _tcpClient.ConnectAsync("127.0.0.1", 8888);
+                _tcpClient.ConnectAsync("192.168.0.130", 88);
             }
             catch
             {
@@ -58,21 +56,6 @@ namespace WinFormsApp1
         }
         private void Cl(string name, NetworkStream stream)
         {
-            //using TcpClient tcpClient = new TcpClient();
-            //try
-            //{
-            //    tcpClient.ConnectAsync("127.0.0.1", 8888);
-            //}
-            //catch
-            //{
-            //    richTextBox1.Text += ("Клиент не подключился");
-            //}
-            //string messeg = "";
-            //if (tcpClient.Connected)
-            //{
-            //    var stream = tcpClient.GetStream();
-            //    richTextBox1.Text += ($"Подключение с {tcpClient.Client.RemoteEndPoint} установленно");
-
             while (_connectingToTheServer == true)
             {
                 if (stream != null)
@@ -97,19 +80,10 @@ namespace WinFormsApp1
                 else
                     break;
             }
-            //}
-            //else
-            //{
-            //    richTextBox1.Text += $"Не удалось подключиться \r\n";
-            //}
-
         }
         private void ToSend_Click(object sender, EventArgs e)
         {
-            //if ((chek && textBox1.Text != "") && (textBox1.Text != null && chek))
-            //    richTextBox1.Text += $"{_name}: {textBox1.Text} \r\n";
             Cl(_name, stream);
-            //Console.WriteLine($"{_name}: {textBox1.Text} ");
             textBox1.Text = "";
         }
         void this_MouseWheel(object sender, MouseEventArgs e)
@@ -139,7 +113,26 @@ namespace WinFormsApp1
         {
             x();
             stream = x();
-            
+        }
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (textBox2.Text == "" || textBox2.Text == " ")
+            {
+                MessageBox.Show("Имя не должно быть пустым");
+            }
+            else
+            {
+                textBox2.ReadOnly = true;
+                _name = textBox2.Text;
+
+                button2.Dispose();
+
+            }
         }
     }
 }
